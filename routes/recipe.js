@@ -24,7 +24,7 @@ router.post('/', (req, res) => {
 
 
 // GET - Get all non-user recipes (Explore - Default)
-router.get('/', (req, res) => {
+router.get('/explore', (req, res) => {
     Recipe.find({isUserRecipe: false})
     .then(recipe => {
         return res.status(201).json(recipe)
@@ -40,6 +40,19 @@ router.get('/', (req, res) => {
 // GET - Get recipe by ID
 
 // GET - Get recipes in recipebook
+router.get('/', (req, res) => {
+    
+    Recipe.find()
+    .then(recipe => {
+        return res.status(201).json(recipe)
+    })
+    .catch(err => {
+        return res.status(500).send({
+            message: "Problem getting recipes",
+            error: err
+        })
+    })
+})
 
 // GET - Get recipes by search criteria
 

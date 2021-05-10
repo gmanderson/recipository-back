@@ -13,6 +13,8 @@ router.get('/:id', Utils.authenticateToken, (req, res) => {
   }
 
   User.findById(req.params.id)
+    .populate({path: 'recipes', model: 'Recipe'})
+    .populate({path: 'shoppingList', model: 'ShoppingList'})
     .then(user => {
       res.json(user)
     })
