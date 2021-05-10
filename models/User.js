@@ -27,13 +27,18 @@ const userSchema = new mongoose.Schema({
   },
   accessLevel: {
     type: Number,
-    required: true
+    required: true,
+    default: 1
   },
   recipes:{
     type: [Schema.Types.ObjectId]
   },
   shoppingList:{
     type: Schema.Types.ObjectId
+  },
+  newUser: {
+    type: Boolean,
+    default: true
   }
 }, { timestamps: true })
 

@@ -48,26 +48,22 @@ router.put('/:id', Utils.authenticateToken, (req, res) => {
       })
     })
   }else{
-    // update user without avatar
-    updateUser({
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      email: req.body.email      
-    })
+    // update user without avatar   
+      updateUser(req.body)
   }
-  
-  // update User
-  function updateUser(update){    
-    User.findByIdAndUpdate(req.params.id, update, {new: true})
-    .then(user => res.json(user))
-    .catch(err => {
-      res.status(500).json({
-        message: 'Problem updating user',
-        error: err
-      })
-    }) 
-  }
-})
+
+    // update User
+    function updateUser(update){    
+      User.findByIdAndUpdate(req.params.id, update, {new: true})
+      .then(user => res.json(user))
+      .catch(err => {
+        res.status(500).json({
+          message: 'Problem updating user',
+          error: err
+        })
+      }) 
+    }
+  })
 
 // POST - create new user --------------------------------------
 router.post('/', (req, res) => {

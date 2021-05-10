@@ -19,5 +19,11 @@ router.post('/', (req, res) => {
     })
 })
 
+// GET - Get shopping list by ID
+
+// PUT - Update shopping list
+
+// DELETE - Deletes shopping list only upon user deletion
+
 // Export router
 module.exports = router

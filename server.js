@@ -38,6 +38,8 @@ const userRouter = require('./routes/user')
 app.use('/user', userRouter)
 
 // recipe
+const recipeRouter = require('./routes/recipe')
+app.use('/recipe', recipeRouter)
 
 // shopping list
 const shoppingListRouter = require('./routes/shoppingList')
