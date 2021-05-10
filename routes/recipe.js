@@ -8,7 +8,7 @@ const Recipe = require('./../models/Recipe')
 
 // POST - Create a new recipe
 router.post('/', (req, res) => {
-    let newRecipe = new Recipe()
+    let newRecipe = new Recipe(req.body)
 
     newRecipe.save()
     .then((recipe) => {
