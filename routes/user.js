@@ -27,6 +27,63 @@ router.get('/:id', Utils.authenticateToken, (req, res) => {
     })
 })
 
+  // PUT - collect recipe --------------------------------------
+  router.put('/collectRecipe', Utils.authenticateToken, (req, res) => {  
+    // validate check
+    if(!req.body.recipeId){
+      return res.status(400).json({
+        message: "No recipe ID specified"
+      })
+    }
+    // add recipeId to recipes field (array - push)
+    User.updateOne({
+      _id: req.user._id
+    }, {
+      $push: {
+        recipes: req.body.recipeId
+      }
+    })
+      .then((user) => {            
+        res.json({
+          message: "Recipe collected"
+        })
+      })
+      .catch(err => {
+        console.log(err)
+        res.status(500).json({
+          message: "Problem collecting recipe"
+        })
+      })
+  })
+
+    // PUT - remove recipe --------------------------------------
+    router.put('/removeRecipe', Utils.authenticateToken, (req, res) => {  
+      // validate check
+      if(!req.body.recipeId){
+        return res.status(400).json({
+          message: "No recipe ID specified"
+        })
+      }
+      // remove recipeId from recipes field (array - push)
+      User.updateOne({
+        _id: req.user._id
+      }, {
+        $pull: {
+          recipes: req.body.recipeId
+        }
+      })
+        .then((user) => {            
+          res.json({
+            message: "Recipe removed"
+          })
+        })
+        .catch(err => {
+          console.log(err)
+          res.status(500).json({
+            message: "Problem removing recipe"
+          })
+        })
+    })
 
 // PUT - update user ---------------------------------------------
 router.put('/:id', Utils.authenticateToken, (req, res) => {
@@ -67,6 +124,30 @@ router.put('/:id', Utils.authenticateToken, (req, res) => {
     }
   })
 
+// PUT - update password
+router.put('/password/:id', Utils.authenticateToken, (req, res) => {
+  // validate request
+  if(!req.body) return res.status(400).send("Task content can't be empty")
+
+      // Check new password is correctly entered
+      if(req.body.newPassword === req.body.confirmNewPassword){
+        // Hash the new password
+        const hashedPassword = Utils.hashPassword(req.body.newPassword)
+
+        User.findByIdAndUpdate(req.params.id, {password: hashedPassword}, {new: true})
+        .then(user => res.json(user))
+        .catch(err => {
+          res.status(500).json({
+            message: 'Problem updating user',
+            error: err
+          })
+        }) 
+
+      }
+
+
+  })
+
 // POST - create new user --------------------------------------
 router.post('/', (req, res) => {
   // validate request
@@ -98,6 +179,9 @@ router.post('/', (req, res) => {
       })
     })
   })
+
 })
+
+
 
 module.exports = router

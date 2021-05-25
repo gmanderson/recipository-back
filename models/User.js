@@ -30,9 +30,9 @@ const userSchema = new mongoose.Schema({
     required: true,
     default: 1
   },
-  recipes:{
-    type: [Schema.Types.ObjectId]
-  },
+  recipes:[
+    {type: Schema.Types.ObjectId, ref: 'Recipe'}
+  ],
   shoppingList:{
     type: Schema.Types.ObjectId
   },
