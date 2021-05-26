@@ -38,29 +38,27 @@ router.post('/', (req, res) => {
        return res.status(500).send({
            message: "Problem creating recipe",
            error: err
-       })
-   })
+        })
+    })
 })
 
-    }else{
-        req.body.image = 'LogoHolder.svg' // REPLACE WITH RECIPOSITORY IMAGE
+}else{
+    req.body.image = 'LogoHolder.svg' // REPLACE WITH RECIPOSITORY IMAGE
 
-        let newRecipe = new Recipe(req.body)
+    let newRecipe = new Recipe(req.body)
 
-        newRecipe.save()
-        .then((recipe) => {
-            return res.status(201).json(recipe)
-            })
-        .catch(err => {
-            return res.status(500).send({
-                message: "Problem creating recipe",
-                error: err
-            })
+    newRecipe.save()
+    .then((recipe) => {
+        return res.status(201).json(recipe)
         })
+    .catch(err => {
+        return res.status(500).send({
+            message: "Problem creating recipe",
+            error: err
+        })
+    })
 
     }
-
-
 })
 
 
@@ -91,7 +89,7 @@ router.get('/:id', (req, res) => {
             error: err
         })
     })
-  })
+})
 
 // GET - Get recipes in recipebook
 router.get('/', (req, res) => {
