@@ -179,9 +179,30 @@ router.post('/', (req, res) => {
       })
     })
   })
-
 })
 
-
+// ------- DELETE:- DELETE USED BY ID -------
+    router.delete('/:id', (req, res) => {
+      if(!req.params.id){
+          return res.status(400).json({
+              message: "User id is missing"
+          })
+      }
+  
+      User.findOneAndDelete({_id: req.params.id})
+          .then(() => {
+              res.json({
+                  message: "User deleted"
+              })
+  
+          })
+          .catch(err => {
+              console.log("Error deleting user", err)
+              res.status(500).json({
+                  message: "Problem deleting user",
+                  error: err
+              })
+          })
+  })
 
 module.exports = router

@@ -108,9 +108,9 @@ router.get('/', (req, res) => {
     })
 })
 
-// GET - Get recipes by search criteria
+// GET - Get recipes by search criteria - IMPLEMENTED IN FRONT END
 
-// PUT - Update recipe by ID
+// PUT - Update recipe by ID - NOT IMPLEMENTED
 
 // DELETE - Delete recipe by ID (user recipes only)
 router.delete('/:id', Utils.authenticateToken, (req, res) => {

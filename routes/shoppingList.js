@@ -58,7 +58,7 @@ router.put('/clearList/:id', (req, res) => {
     ShoppingList.updateOne({
       _id: req.params.id
     }, {
-      $push: {
+      $addToSet: {
         items: req.body.items
       }
     })
@@ -71,6 +71,35 @@ router.put('/clearList/:id', (req, res) => {
         console.log(err)
         res.status(500).json({
           message: "Problem adding items"
+        })
+      })
+  })
+
+  // remove an item
+  router.put('/removeItem/:id', (req, res) => {  
+    // validate check
+    if(!req.body.items){
+      return res.status(400).json({
+        message: "No items specified"
+      })
+    }
+    // add items to ingredients array (array - push)
+    ShoppingList.updateOne({
+      _id: req.params.id
+    }, {
+      $pull: {
+        items: req.body.items
+      }
+    })
+      .then((user) => {            
+        res.json({
+          message: "Item removed"
+        })
+      })
+      .catch(err => {
+        console.log(err)
+        res.status(500).json({
+          message: "Problem removing items"
         })
       })
   })
@@ -92,6 +121,28 @@ router.get('/:id', (req, res) => {
 
 
 // DELETE - Deletes shopping list only upon user deletion
+router.delete('/:id', (req, res) => {
+  if(!req.params.id){
+      return res.status(400).json({
+          message: "List id is missing"
+      })
+  }
+
+  ShoppingList.findOneAndDelete({_id: req.params.id})
+      .then(() => {
+          res.json({
+              message: "List deleted"
+          })
+
+      })
+      .catch(err => {
+          console.log("Error deleting list", err)
+          res.status(500).json({
+              message: "Problem deleting list",
+              error: err
+          })
+      })
+})
 
 // Export router
 module.exports = router
